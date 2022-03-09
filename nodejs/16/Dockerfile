@@ -33,10 +33,12 @@ USER        container
 ENV         USER=container HOME=/home/container
 WORKDIR     /home/container
 
-RUN curl -L -o deemix.zip http://gitlab.com/Bockiii/deemix-src/-/jobs/artifacts/master/download?job=dl_src && \
+RUN cd /mnt/server && \
+    curl -L -o deemix.zip http://gitlab.com/Bockiii/deemix-src/-/jobs/artifacts/master/download?job=dl_src && \
     unzip deemix && \
     mv /mnt/server/deemix-gui/* /mnt/server && \
-    rm -r deemix-gui
+    rm -r deemix-gui && \
+	rm -r /mnt/server/deemix.zip
 
 COPY        ./../entrypoint.sh /entrypoint.sh
 CMD         [ "/bin/ash", "/entrypoint.sh" ]
